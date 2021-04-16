@@ -3,11 +3,11 @@
 
 import random
 from matplotlib import pyplot
+from matplotlib.animation import FuncAnimation
 
 
 def randomWalk(steps):
     """Returns coordinates after given number of steps in a cartesian coordinate system."""
-    pyplot.title('Random Walk')
     path = {'x': [], 'y': []}
     x, y = 0, 0
     for i in range(steps):
@@ -16,26 +16,26 @@ def randomWalk(steps):
         y += dy
         path['x'].append(x)
         path['y'].append(y)
-    pyplot.plot(path['x'], path['y'])    
-    pyplot.show()
-    return (x, y)
-
-
+    return path
 
 
 def walkDistance(x, y):
-    return abs(x) + abs(y)    
+    return abs(x) + abs(y)
 
 
-def main():
-    (x, y) = randomWalk(10000)
-    distance = walkDistance(x, y)
-    print('(%s, %s), %s' % (str(x), str(y), str(distance)))
+fig = pyplot.figure()
+pyplot.style.use('classic')
+path = randomWalk(10000)
+
+x, y = [], []
+
+def animate(i):
+    x.append(path['x'][i])
+    y.append(path['y'][i])
+    print('(%s, %s)' % (str(x[i]), str(y[i])))
+    pyplot.plot(x, y, color='green')
+
+ani = FuncAnimation(fig, animate, interval=10)
+pyplot.show()
 
 
-
-if __name__ == '__main__':
-    try:
-        main()
-    except Exception as e:
-        print(e)
