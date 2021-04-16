@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+import argparse
 import random
 
 
@@ -21,17 +22,6 @@ class RandomWalk():
         self.distance = abs(x) + abs(y)
 
 
-mywalk = RandomWalk(1000)
-print('Last Position: %s\t Distance: %s' % (mywalk.last_position, mywalk.distance))
-
-#for i in range(51):
-#    count = 0
-#    for j in range(100000):
-#        if walkDistance(randomWalk(i)) < 4:
-#            count += 1
-#    percent = float(count / 100000)
-#    print('Steps: %s\t Distance: %s' % (str(i), str(percent)))
-
 def analyze(max_steps, distance, sample_size):
     for i in range(max_steps):
         count = 0
@@ -43,8 +33,19 @@ def analyze(max_steps, distance, sample_size):
         print('%s steps:\t %s' % (i, percent))
 
 
+def getArguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--steps', '-s', help='Number of Max steps to analyze', type=int)
+    parser.add_argument('--sample', '-n', help='Sample size to analyze for each step', type=int)
+    parser.add_argument('--distance', '-d', help='Max distance for analysis', type=int)
+    
+    args = parser.parse_args()
+    return args
+
+
 def main():
-    analyze(51, 5, 10000)
+    args = getArguments()
+    analyze(args.steps, args.distance, args.sample)
 
 
 
