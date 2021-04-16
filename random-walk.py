@@ -2,40 +2,27 @@
 
 
 import random
-from matplotlib import pyplot
-from matplotlib.animation import FuncAnimation
 
 
 def randomWalk(steps):
     """Returns coordinates after given number of steps in a cartesian coordinate system."""
-    path = {'x': [], 'y': []}
     x, y = 0, 0
     for i in range(steps):
         (dx, dy) = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
         x += dx
         y += dy
-        path['x'].append(x)
-        path['y'].append(y)
-    return path
+    return x, y
 
 
-def walkDistance(x, y):
-    return abs(x) + abs(y)
+def walkDistance(path):
+    return abs(path[0]) + abs(path[1])
 
+#print(walkDistance(randomWalk(100)))
 
-fig = pyplot.figure()
-pyplot.style.use('classic')
-path = randomWalk(10000)
-
-x, y = [], []
-
-def animate(i):
-    x.append(path['x'][i])
-    y.append(path['y'][i])
-    print('(%s, %s)' % (str(x[i]), str(y[i])))
-    pyplot.plot(x, y, color='green')
-
-ani = FuncAnimation(fig, animate, interval=10)
-pyplot.show()
-
-
+for i in range(51):
+    count = 0
+    for j in range(100000):
+        if walkDistance(randomWalk(i)) < 4:
+            count += 1
+    percent = float(count / 100000)
+    print('Steps: %s\t Distance: %s' % (str(i), str(percent)))
