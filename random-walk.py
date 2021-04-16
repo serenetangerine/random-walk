@@ -23,14 +23,14 @@ class RandomWalk():
 
 
 def analyze(max_steps, distance, sample_size):
-    for i in range(max_steps):
+    for i in range(max_steps + 1):
         count = 0
-        for j in range(sample_size):
+        for j in range(sample_size + 1):
             walk = RandomWalk(i)
             if walk.distance <= distance:
                 count += 1
         percent = float((count / sample_size) * 100) 
-        print('%s steps:\t %s' % (i, percent))
+        print('%s steps:\t %s ' % (i, percent) + '%')
 
 
 def getArguments():

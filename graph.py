@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 
+import argparse
 import random
 from matplotlib import pyplot
-from matplotlib.animation import FuncAnimation
 
 
 def randomWalk(steps):
@@ -19,23 +19,35 @@ def randomWalk(steps):
     return path
 
 
-def walkDistance(x, y):
-    return abs(x) + abs(y)
+def walkDistance(path):
+    return abs(path['x'][len(path['x']) - 1]) + abs(path['y'][len(path['y']) - 1])
 
 
-fig = pyplot.figure()
-pyplot.style.use('classic')
-path = randomWalk(1000)
-
-x, y = [], []
-
-def animate(i):
-    x.append(path['x'][i])
-    y.append(path['y'][i])
-    print('(%s, %s)' % (str(x[i]), str(y[i])))
-    pyplot.plot(x, y, color='green')
-
-ani = FuncAnimation(fig, animate, interval=10)
-pyplot.show()
+def drawGraph(path):
+    fig = pyplot.figure()
+    pyplot.style.use('classic')
+    
+    pyplot.plot(path['x'], path['y'], color='green')
+    pyplot.show()
 
 
+def getArguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--steps', '-s', help='Number of steps to generate', type=int)
+
+    args = parser.parse_args()
+    return args
+
+
+def main():
+    args = getArguments()
+    walk = randomWalk(args.steps)
+    distance = walkDistance(walk)
+
+    print('Distance: %s' % (distance))
+    drawGraph(walk)
+
+
+
+if __name__ == '__main__':
+    main()
