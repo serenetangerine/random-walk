@@ -37,7 +37,7 @@ class RandomWalk():
     # draw a graph of the walk object
     def draw_graph(self):
         fig = pyplot.figure()
-        pyplot.plot(self.path['x'], self.path['y'], color='green')
+        pyplot.plot(self.path['x'], self.path['y'])
         pyplot.show()
 
 
