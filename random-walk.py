@@ -61,8 +61,11 @@ def main():
             print('Invalid arguments: --graph and --steps must both be specified.')
             sys.exit(1)
         else:
+            print('Generating walk with %s steps...\n' % (args.steps))
             walk = RandomWalk(args.steps)
+            print('Walk sequence generated!\nDistance: %s\n\nGenerating graph...' % (walk.distance))
             walk.draw_graph()
+            print('Done!')
             sys.exit(0)
     elif args.steps and args.sample and args.distance:
         analyze(args.steps, args.distance, args.sample)
