@@ -3,6 +3,7 @@
 
 import argparse
 import random
+import numpy
 import sys
 from matplotlib import pyplot
 
@@ -36,6 +37,16 @@ def averageDistance(max_steps, distance, sample_size):
         print('%s steps:\t %s ' % (i, percent) + '%')
 
 
+def distributionDistance(steps, sample_size):
+    distances = []
+    for i in range(sample_size + 1):
+        walk = RandomWalk(steps)
+        distances.append(walk.distance)
+    bins = numpy.arange(min(distances), max(distances) + 1, 1)
+    pyplot.hist(distances, bins=bins, density=True)
+    pyplot.show()
+
+
 def getArguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--steps', '-s', help='Number of steps for a walk', type=int)
@@ -61,9 +72,11 @@ def main():
     elif args.graph and args.steps:
         walk = RandomWalk(args.steps)
         walk.draw_graph()
+        sys.exit(0)
 
     elif args.distributionDistance and args.steps and args.sample:
-        pass
+        distributionDistance(args.steps, args.sample)
+        sys.exit(0)
 
     else:
         print('Invalid Arguments: <write output later>')
