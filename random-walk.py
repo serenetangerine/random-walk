@@ -40,7 +40,7 @@ class RandomWalk():
         pyplot.show()
 
 
-def analyze(max_steps, distance, sample_size):
+def averageDistance(max_steps, distance, sample_size):
     for i in range(max_steps + 1):
         count = 0
         for j in range(sample_size + 1):
@@ -51,12 +51,25 @@ def analyze(max_steps, distance, sample_size):
         print('%s steps:\t %s ' % (i, percent) + '%')
 
 
+def distributionDistance(steps, sample_size):
+    distances = []
+    for i in range(sample_size + 1):
+        walk = RandomWalk(steps)
+        distances.append(walk.distance)
+    pyplot.hist(distances)
+    pyplot.show()
+
+
 def getArguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--steps', '-s', help='Number of Max steps to analyze', type=int)
     parser.add_argument('--sample', '-n', help='Sample size to analyze for each step', type=int)
     parser.add_argument('--distance', '-d', help='Max distance for analysis', type=int)
+
     parser.add_argument('--graph', '-g', help='Flag to toggle drawing a static graph', action='store_true')
+
+    parser.add_argument('--averageDistance', '-aA', help='Flag to toggle average distance analysis', action='store_true')
+    parser.add_argument('--distributionDistance', '-aD', help='Flag to toggle distance distribution analysis', action='store_true')
     
     args = parser.parse_args()
     return args
@@ -77,12 +90,20 @@ def main():
         print('Done!')
         sys.exit(0)
 
-    elif args.steps and args.sample and args.distance:
+    elif args.steps and args.sample and args.distance and args.averageDistance:
         if args.graph:
             print('Invalid Argument: --graph is not not supported with analysis.')
             sys.exit(1)
 
-        analyze(args.steps, args.distance, args.sample)
+        averageDistance(args.steps, args.distance, args.sample)
+        sys.exit(0)
+
+    elif args.steps and args.sample and args.distributionDistance:
+        if args.graph or args.distance or args.averageDistance:
+            print('Invalid Arguments: <write error message later>')
+            sys.exit(1)
+
+        distributionDistance(args.steps, args.sample)
         sys.exit(0)
 
     else:
