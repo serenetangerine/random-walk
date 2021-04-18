@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+#
+## Generates walk objects and allows for either graphing a single walk or running an analysis of 
+## how many walks have a distance less than a given distance for given walk lengths
 
 
 import argparse
@@ -10,19 +13,24 @@ from matplotlib import pyplot
 class RandomWalk():
     def __init__(self, steps):
         self.steps = steps
+        # initialize path start point
         self.path = {'x': [0], 'y': [0]}
 
+        # generate walk
         for i in range(self.steps):
             (dx, dy) = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
             self.path['x'].append(self.path['x'][i] + dx)
             self.path['y'].append(self.path['y'][i] + dy)
 
+        # set end coordinates
         x = self.path['x'][len(self.path['x']) - 1]
         y = self.path['y'][len(self.path['y']) - 1]
         self.last_position = (x, y)
 
+        # calculate distance
         self.distance = abs(x) + abs(y)
     
+    # draw a graph of the walk object
     def draw_graph(self):
         fig = pyplot.figure()
         pyplot.plot(self.path['x'], self.path['y'], color='green')
@@ -54,12 +62,17 @@ def getArguments():
 def main():
     args = getArguments()
     if args.graph:
+        # verify --sample or --distance are not specified
         if args.sample or args.distance:
-            print('Invalid arguments: --sample and --distance are not compatible with --graph.')
+            print('Invalid arguments: --sample and --distance are not compatible wi1th --graph.')
             sys.exit(1)
+
+        # make sure --steps is specified
         elif not args.steps:
             print('Invalid arguments: --graph and --steps must both be specified.')
             sys.exit(1)
+
+        # generate walk and draw the graph
         else:
             print('Generating walk with %s steps...\n' % (args.steps))
             walk = RandomWalk(args.steps)
@@ -67,9 +80,13 @@ def main():
             walk.draw_graph()
             print('Done!')
             sys.exit(0)
+
+    # verify --steps, --sample, and --distance are specified then run analysis
     elif args.steps and args.sample and args.distance:
         analyze(args.steps, args.distance, args.sample)
         sys.exit(0)
+
+    # handle lack of arguments 
     else:
         print('Invalid arguments: either --steps and --graph or --steps, --distance, and --sample must be specified.')
         sys.exit(1)
