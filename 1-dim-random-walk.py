@@ -25,9 +25,25 @@ class RandomWalk():
         pyplot.show()
             
 
+def averageDistance(max_steps, distance, sample_size):
+    for i in range(max_steps + 1):
+        count = 0
+        for j in range(sample_size + 1):
+            walk = RandomWalk(i)
+            if walk.distance <= distance:
+                count += 1
+            percent = float((count / sample_size) * 100)
+            print(%s steps:\t %s ' % (i, percent) + '%')
+
+
 def getArguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--steps', '-s', help='Number of steps for a walk', type=int)
+    parser.add_argument('--sample', '-n', help='Sample size to analyze for each step', type=int)
+    parser.add_argument('--distance', '-d', help='Max distance for analysis', type=int)
+
+    parser.add_argument('--averageDistance', '-aA', help='Flag to toggle average distance analysis', action='store_true')
+    parser.add_argument('--distributionDistance', '-aD', help='Flag to toggle distance distribution analysis', action='store_true')
 
     args = parser.parse_args()
     return args
