@@ -64,36 +64,31 @@ def getArguments():
 
 def main():
     args = getArguments()
-    if args.graph:
-        # verify --sample or --distance are not specified
+
+    if args.graph and args.steps:
         if args.sample or args.distance:
-            print('Invalid arguments: --sample and --distance are not compatible wi1th --graph.')
+            print('InvalidArgument: --sample or --distance are not supported with --graph')
             sys.exit(1)
 
-        # make sure --steps is specified
-        elif not args.steps:
-            print('Invalid arguments: --graph and --steps must both be specified.')
-            sys.exit(1)
+        print('Generating walk with %s steps...\n' % (args.steps))
+        walk = RandomWalk(args.steps)
+        print('Walk sequence generated!\nDistance: %s\n\nGenerating graph...' % (walk.distance))
+        walk.draw_graph()
+        print('Done!')
+        sys.exit(0)
 
-        # generate walk and draw the graph
-        else:
-            print('Generating walk with %s steps...\n' % (args.steps))
-            walk = RandomWalk(args.steps)
-            print('Walk sequence generated!\nDistance: %s\n\nGenerating graph...' % (walk.distance))
-            walk.draw_graph()
-            print('Done!')
-            sys.exit(0)
-
-    # verify --steps, --sample, and --distance are specified then run analysis
     elif args.steps and args.sample and args.distance:
+        if args.graph:
+            print('Invalid Argument: --graph is not not supported with analysis.')
+            sys.exit(1)
+
         analyze(args.steps, args.distance, args.sample)
         sys.exit(0)
 
-    # handle lack of arguments 
     else:
-        print('Invalid arguments: either --steps and --graph or --steps, --distance, and --sample must be specified.')
+        print('Invalid Arguments: use -h for help.')
         sys.exit(1)
-        
+
 
 
 if __name__ == '__main__':
