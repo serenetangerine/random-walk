@@ -8,6 +8,7 @@
 
 
 import argparse
+import numpy
 import random
 import sys
 from matplotlib import pyplot
@@ -56,7 +57,8 @@ def distributionDistance(steps, sample_size):
     for i in range(sample_size + 1):
         walk = RandomWalk(steps)
         distances.append(walk.distance)
-    pyplot.hist(distances)
+    bins = numpy.arange(min(distances), max(distances) + 1, 1)
+    pyplot.hist(distances, bins=bins, density=True)
     pyplot.show()
 
 
