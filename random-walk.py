@@ -3,6 +3,8 @@
 
 import argparse
 import random
+import sys
+from matplotlib import pyplot
 
 
 class RandomWalk():
@@ -20,6 +22,11 @@ class RandomWalk():
         self.last_position = (x, y)
 
         self.distance = abs(x) + abs(y)
+    
+    def draw_graph(self):
+        fig = pyplot.figure()
+        pyplot.plot(self.path['x'], self.path['y'], color='green')
+        pyplot.show()
 
 
 def analyze(max_steps, distance, sample_size):
@@ -38,6 +45,7 @@ def getArguments():
     parser.add_argument('--steps', '-s', help='Number of Max steps to analyze', type=int)
     parser.add_argument('--sample', '-n', help='Sample size to analyze for each step', type=int)
     parser.add_argument('--distance', '-d', help='Max distance for analysis', type=int)
+    parser.add_argument('--graph', '-g', help='Flag to toggle drawing a static graph', action='store_true')
     
     args = parser.parse_args()
     return args
@@ -45,9 +53,32 @@ def getArguments():
 
 def main():
     args = getArguments()
-    analyze(args.steps, args.distance, args.sample)
-
+    if args.graph:
+        if args.sample or args.distance:
+            print('Invalid arguments: --sample and --distance are not compatible with --graph.')
+            sys.exit(1)
+        elif not args.steps:
+            print('Invalid arguments: --graph and --steps must both be specified.')
+            sys.exit(1)
+        else:
+            walk = RandomWalk(args.steps)
+            walk.draw_graph()
+            sys.exit(0)
+    elif args.steps and args.sample and args.distance:
+        analyze(args.steps, args.distance, args.sample)
+        sys.exit(0)
+    else:
+        print('Invalid arguments: either --steps and --graph or --steps, --distance, and --sample must be specified.')
+        sys.exit(1)
+        
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Script killed by user.')
+        sys.exit(0)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
