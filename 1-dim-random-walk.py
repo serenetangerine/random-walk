@@ -20,11 +20,13 @@ class RandomWalk():
         self.distance = self.last_position
 
     def draw_graph(self):
-        pass
+        fig = pyplot.figure()
+        pyplot.plot(self.path)
+        pyplot.show()
             
 
 def getArguments():
-    parser = argparse.ArgumentParser
+    parser = argparse.ArgumentParser()
     parser.add_argument('--steps', '-s', help='Number of steps for a walk', type=int)
 
     args = parser.parse_args()
@@ -32,20 +34,22 @@ def getArguments():
 
 
 def main():
-    args = getArguments
+    args = getArguments()
 
     if args.steps:
         walk = RandomWalk(args.steps)
-        print(walk.distance)
+        print('Distance: %s' % (walk.distance))
+        walk.draw_graph()
 
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('Script terminated by user.')
-        sys.exit(1)
-    except Exception as e:
-        print(e)
-        sys.exit(1)
+    main()
+    #try:
+    #    main()
+    #except KeyboardInterrupt:
+    #    print('Script terminated by user.')
+    #    sys.exit(1)
+    #except Exception as e:
+    #    print(e)
+    #    sys.exit(1)
