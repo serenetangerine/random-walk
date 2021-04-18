@@ -1,5 +1,5 @@
 # random-walk
-Random walk simulator on cartesean plane written in python3
+Random walk simulator on cartesian plane written in python3
 
 Each step randomly selects moving up, down, left, or right one unit.
 
