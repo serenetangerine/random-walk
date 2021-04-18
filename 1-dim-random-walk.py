@@ -20,9 +20,7 @@ class RandomWalk():
         self.distance = self.last_position
 
     def draw_graph(self):
-        fig = pyplot.figure()
-        pyplot.plot(self.path)
-        pyplot.show()
+        pass
             
 
 def averageDistance(max_steps, distance, sample_size):
@@ -37,7 +35,7 @@ def averageDistance(max_steps, distance, sample_size):
 
 
 def getArguments():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser
     parser.add_argument('--steps', '-s', help='Number of steps for a walk', type=int)
     parser.add_argument('--sample', '-n', help='Sample size to analyze for each step', type=int)
     parser.add_argument('--distance', '-d', help='Max distance for analysis', type=int)
@@ -50,22 +48,20 @@ def getArguments():
 
 
 def main():
-    args = getArguments()
+    args = getArguments
 
     if args.steps:
         walk = RandomWalk(args.steps)
-        print('Distance: %s' % (walk.distance))
-        walk.draw_graph()
+        print(walk.distance)
 
 
 
 if __name__ == '__main__':
-    main()
-    #try:
-    #    main()
-    #except KeyboardInterrupt:
-    #    print('Script terminated by user.')
-    #    sys.exit(1)
-    #except Exception as e:
-    #    print(e)
-    #    sys.exit(1)
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Script terminated by user.')
+        sys.exit(1)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
