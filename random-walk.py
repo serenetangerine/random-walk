@@ -3,6 +3,9 @@
 ## Generates walk objects and allows for either graphing a single walk or running an analysis of 
 ## how many walks have a distance less than a given distance for given walk lengths
 
+## TODO
+# Add animated graph argument and method
+
 
 import argparse
 import random
